@@ -21,12 +21,12 @@ class BooksController < ApplicationController
 
   # POST /books or /books.json
   def create
-    @book = Book.new(book_params)
+    @book = Book.new(book_params) # book_paramsの返り値がハッシュでユーザからの入力値が入っている
 
     respond_to do |format|
       if @book.save
-        format.html { redirect_to book_url(@book), notice: "Book was successfully created." }
-        format.json { render :show, status: :created, location: @book }
+        format.html { redirect_to book_url(@book), notice: "Book was successfully created." } # @bookは一意の値探すからid,詳細画面にリダイレクト
+        format.json { render :show, status: :created, location: @book } # .jsonにアクセスするとハッシュ値でみれる
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @book.errors, status: :unprocessable_entity }
@@ -64,7 +64,7 @@ class BooksController < ApplicationController
     end
 
     # Only allow a list of trusted parameters through.
-    def book_params
+    def book_params  # 戻り値がハッシュでbook_paramsを呼び出すことでそのまま入力値を受け取ることができる
       params.require(:book).permit(:isbn, :price, :publish, :published, :dl)
     end
 end
